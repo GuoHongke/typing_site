@@ -1,0 +1,12 @@
+*.swp
+*.py[cod]
+build/
+develop-eggs/
+dist/
+*.so
+*.egg
+*.egg-info
+*.DS_Store
+.AppleDouble
+.LSOverride
+nohup.out
