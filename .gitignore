@@ -9,4 +9,5 @@ dist/
 *.DS_Store
 .AppleDouble
 .LSOverride
+.idea
 nohup.out
