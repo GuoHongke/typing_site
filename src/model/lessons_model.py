@@ -5,10 +5,11 @@ from sqlalchemy import Column, String
 from . import Base
 
 
-class Files(Base):
+class Lessons(Base):
     __tablename__ = 'lessons'
 
     id = Column(String(255), primary_key=True)
+    name = Column(String(255), nullable=False)
     file_id = Column(String(255), nullable=False)
 
     def __repr__(self):
