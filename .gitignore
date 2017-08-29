@@ -11,3 +11,4 @@ dist/
 .LSOverride
 .idea
 nohup.out
+app.conf
