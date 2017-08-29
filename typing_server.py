@@ -7,8 +7,12 @@ import tornado.ioloop
 import tornado.httpserver
 from tornado.options import options, define, parse_command_line
 from router import url_map
+from src.utils import config
+from env import set_env
+set_env()
 
-define("port", default=8888, help=" server listen port")
+port = config.get('global', 'port')
+define("port", default=port, help=" server listen port")
 
 
 def main():
