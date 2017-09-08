@@ -9,6 +9,7 @@ class BaseHandler(RequestHandler):
     def __init__(self, application, request, **kwargs):
         super(BaseHandler, self).__init__(application, request, **kwargs)
 
+        self._status = 0
         self._error_message = None
         self._result = {}
 
@@ -36,7 +37,7 @@ class BaseHandler(RequestHandler):
 
     def do_response(self):
         response = {
-            "status": self.get_status()
+            "status": self._status
         }
         if self._error_message:
             response["error_message"] = self._error_message
@@ -50,8 +51,9 @@ class BaseHandler(RequestHandler):
     def set_result(self, result):
         self._result = result
 
-    def set_error(self, error_message, result=None):
+    def set_error(self, error_code,error_message, result=None):
         if result is None:
             result = {}
+        self._status = error_code
         self._error_message = error_message
         self._result = result
