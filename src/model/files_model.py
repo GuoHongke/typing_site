@@ -10,6 +10,7 @@ class Files(Base):
 
     id = Column(String(255), primary_key=True)
     name = Column(String(255), nullable=False)
+    plang = Column(String(255), nullable=False)
 
     def __repr__(self):
         return "<File(id='%s', name='%s')>" % (self.id, self.name)

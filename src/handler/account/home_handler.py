@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import json
 from src.handler.base.base_handler import BaseHandler
 from src.model import DBSession
 from src.model.lessons_model import Lessons
@@ -16,7 +16,7 @@ class HomeHandler(BaseHandler):
             res = {
                 'id': lesson.id,
                 'name': lesson.name,
-                'file_id': lesson.file_id
+                'file_ids': json.loads(lesson.file_ids)
             }
             lesson_list.append(res)
         result = {

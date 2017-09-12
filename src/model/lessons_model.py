@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, VARCHAR
 from . import Base
 
 
@@ -10,7 +10,7 @@ class Lessons(Base):
 
     id = Column(String(255), primary_key=True)
     name = Column(String(255), nullable=False)
-    file_id = Column(String(255), nullable=False)
+    file_ids = Column(VARCHAR(255), nullable=False)
 
     def __repr__(self):
-        return "<Lesson(id='%s', file_id='%s')>" % (self.id, self.file_id)
+        return "<Lesson(id='%s', file_ids='%s')>" % (self.id, self.file_ids)
