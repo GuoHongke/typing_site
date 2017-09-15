@@ -12,7 +12,7 @@ class FileHandler(BaseHandler):
         file_id = self.get_argument('file_id', None)
         session = DBSession()
         try:
-            _file = session.query(Files).filter(Files.id == file_id).one()
+            _file = session.query(Files.name).filter(Files.id == file_id).one()
             cur_dir = os.path.dirname(os.path.realpath(__file__))
             resources_dir = os.path.join(cur_dir, "../../../resources")
             file_path = os.path.join(resources_dir, _file.name)

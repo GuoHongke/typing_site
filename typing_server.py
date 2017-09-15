@@ -12,6 +12,8 @@ from env import set_env
 set_env()
 
 port = config.get('global', 'port')
+debug_model = int(config.get('global', 'debug_model'))
+process_num = int(config.get('global', 'process_num'))
 define("port", default=port, help=" server listen port")
 
 
@@ -20,7 +22,7 @@ def main():
     app = tornado.web.Application(url_map)
     server = tornado.httpserver.HTTPServer(app, max_body_size=800 * 1024 * 1024)
     server.bind(options.port)
-    server.start()
+    server.start(1 if debug_model else process_num)
     print 'Server start on port %s' % options.port
     tornado.ioloop.IOLoop.instance().start()
 
