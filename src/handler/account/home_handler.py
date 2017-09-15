@@ -9,7 +9,7 @@ from src.model.lessons_model import Lessons
 class HomeHandler(BaseHandler):
     def do_action(self):
         session = DBSession()
-        lessons = session.query(Lessons).all()
+        lessons = session.query(Lessons.id, Lessons.name, Lessons.file_ids).yield_per(100).limit(1000000)
 
         lesson_list = []
         for lesson in lessons:
