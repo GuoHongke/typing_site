@@ -15,5 +15,5 @@ mysql_engine = 'mysql+mysqldb://%s:%s@%s:%s/%s' % (DB_USER, DB_PWD, DB_HOST, DB_
 
 Base = declarative_base()
 
-engine = create_engine(mysql_engine, pool_size=20, max_overflow=0, echo=True)
+engine = create_engine(mysql_engine, pool_size=20, max_overflow=0)
 DBSession = sessionmaker(bind=engine)
