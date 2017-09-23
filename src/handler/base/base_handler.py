@@ -13,6 +13,8 @@ class BaseHandler(RequestHandler):
         self._error_message = None
         self._result = {}
 
+        self.account_id = self.get_secure_cookie('account_id')
+
     def head(self, *args, **kwargs):
         self.do_action()
         self.do_response()
@@ -51,7 +53,7 @@ class BaseHandler(RequestHandler):
     def set_result(self, result):
         self._result = result
 
-    def set_error(self, error_code,error_message, result=None):
+    def set_error(self, error_code, error_message, result=None):
         if result is None:
             result = {}
         self._status = error_code
