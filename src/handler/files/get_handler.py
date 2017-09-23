@@ -9,7 +9,7 @@ from src.model.files_model import Files
 from src.helper.redis_helper import RedisClient
 
 
-class FileHandler(BaseHandler):
+class GetHandler(BaseHandler):
     def do_action(self):
         file_id = self.get_argument('file_id', None)
         page_id = int(self.get_argument('page_id', 0))
