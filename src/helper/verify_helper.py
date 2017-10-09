@@ -40,7 +40,7 @@ class VerifyHelper(object):
     @staticmethod
     def name_check(name):
         # 不以下划线开头，仅包含字母、数字或下划线的用户名
-        if re.match(r'^(?!_)[a-zA-Z0-9_\u4e00-\u9fa5]+$'):
+        if re.match(r'^(?!_)[a-zA-Z0-9_\u4e00-\u9fa5]+$', name):
             return True
         else:
             return False

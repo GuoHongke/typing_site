@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import json
-import time
 from tornado.web import RequestHandler
+from tornado_sqlalchemy import SessionMixin
 
 
-class BaseHandler(RequestHandler):
+class BaseHandler(RequestHandler, SessionMixin):
     def __init__(self, application, request, **kwargs):
         super(BaseHandler, self).__init__(application, request, **kwargs)
 
@@ -16,25 +16,26 @@ class BaseHandler(RequestHandler):
         self.account_id = self.get_secure_cookie('account_id')
 
     def head(self, *args, **kwargs):
-        self.do_action()
-        self.do_response()
+        self.run()
 
     def get(self, *args, **kwargs):
-        self.do_action()
-        self.do_response()
+        self.run()
 
     def post(self, *args, **kwargs):
-        self.do_action()
-        self.do_response()
+        self.run()
 
     def options(self, *args, **kwargs):
-        self.do_action()
-        self.do_response()
+        self.run()
 
     def data_received(self, chunk):
         pass
 
-    def do_action(self):
+    def run(self):
+        with self.make_session() as session:
+            self.do_action(session)
+        self.do_response()
+
+    def do_action(self, session):
         pass
 
     def do_response(self):
