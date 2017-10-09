@@ -7,6 +7,6 @@ from src.helper.login_helper import login_auth
 
 class LogoutHandler(BaseHandler):
     @login_auth
-    def do_action(self):
+    def do_action(self, session):
         self.account_id = None
         self.clear_cookie('account_id')

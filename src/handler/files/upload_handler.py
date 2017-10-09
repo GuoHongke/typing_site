@@ -6,5 +6,5 @@ from src.helper.login_helper import login_auth
 
 class FileUploadHandler(BaseHandler):
     @login_auth
-    def do_action(self):
+    def do_action(self, session):
         pass
