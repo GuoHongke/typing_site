@@ -12,11 +12,9 @@ class RegisterHandler(BaseHandler):
         name = self.get_argument('name', None)
         password = self.get_argument('password', None)
         email = self.get_argument('email', None)
-
         error_msg = None
         if not all((name, password, email)):
             error_msg = u'请输入相关注册信息'
-        print name, email, password
         if not error_msg and not VerifyHelper().name_check(name):
             error_msg = u'用户名格式错误'
         if not error_msg and not VerifyHelper().mail_check(email):
@@ -30,7 +28,7 @@ class RegisterHandler(BaseHandler):
 
                 if not account:
                     account = Account(id=tools.unique_id('ad'), name=name, password=Md5Helper().ori_str_gen(password),
-                                      lessons='[]')
+                                      email=email, lessons='[]')
                     session.add(account)
                 else:
                     error_msg = u'用户名已被注册'
