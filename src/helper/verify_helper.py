@@ -26,9 +26,9 @@ class VerifyHelper(object):
         pattern = re.compile(r'(?!^(\d+|[a-zA-Z]+|[^a-z0-9A-Z]+)$)^.+$')
         match = pattern.findall(pwd)
         if match:
-            return False
-        else:
             return True
+        else:
+            return False
 
     @staticmethod
     def mail_check(mail):
