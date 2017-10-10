@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
+import time
 from sqlalchemy.sql import and_
 from src.handler.base.base_handler import BaseHandler
 from src.model.history_model import History
@@ -23,6 +24,7 @@ class LessonSaveHandler(BaseHandler):
                 'page_id': page_id,
                 'wpm': wpm,
                 'invalid_rate': invalid_rate,
+                'update_time': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
                 'error_array': error_array
             }
             history_msg = []
