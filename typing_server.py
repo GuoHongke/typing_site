@@ -7,10 +7,12 @@ import tornado.ioloop
 import tornado.httpserver
 from tornado.options import options, define, parse_command_line
 from tornado_sqlalchemy import make_session_factory
-from router import url_map
-from src.utils import config
+
 from env import set_env
 set_env()
+
+from router import url_map
+from src.utils import config
 
 
 DB_HOST = config.get('mysql', 'host')
