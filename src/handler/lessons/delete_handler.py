@@ -16,5 +16,5 @@ class LessonDeleteHandler(BaseHandler):
             error_msg = u'删除失败'
 
         if error_msg:
-            self.set_error()
+            self.set_error(1, error_msg)
 

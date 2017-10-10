@@ -3,6 +3,7 @@
 import json
 from tornado.web import RequestHandler
 from tornado_sqlalchemy import SessionMixin
+from src.utils.logger import logger
 
 
 class BaseHandler(RequestHandler, SessionMixin):
@@ -14,6 +15,12 @@ class BaseHandler(RequestHandler, SessionMixin):
         self._result = {}
 
         self.account_id = self.get_secure_cookie('account_id')
+
+    def prepare(self):
+        if 'password' in self.request.arguments:
+            logger.api_logger().api_info('handler %s' % self.__class__.__name__)
+        else:
+            logger.api_logger().api_info('handler %s args %s' % (self.__class__.__name__, self.request.arguments))
 
     def head(self, *args, **kwargs):
         self.run()
@@ -44,6 +51,7 @@ class BaseHandler(RequestHandler, SessionMixin):
         }
         if self._error_message:
             response["error_message"] = self._error_message
+            logger.api_logger().api_error(self._error_message)
 
         response.update(self._result)
 
