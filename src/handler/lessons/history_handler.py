@@ -1,10 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from src.handler.base.base_handler import BaseHandler
-from src.helper.login_helper import login_auth
+from src.model.history_model import History
+from src.utils.logger import logger
 
 
 class HistoryHandler(BaseHandler):
-    @login_auth
     def do_action(self, session):
-        pass
+        try:
+            history_list = session.query(History.lesson_id, History.history_msg).filter(
+                History.account_id == self.account_id)
+            history = []
+            for h in history_list:
+                _h = {
+                    'lesson_id': h.lesson_id,
+                    'history_msg': h.history_msg
+                }
+                history.append(_h)
+
+            self.set_result({
+                'history': history
+            })
+        except Exception, e:
+            logger.api_logger().api_error(e)
+            self.set_error(1, u'服务器内部错误')
