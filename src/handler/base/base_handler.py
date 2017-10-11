@@ -54,11 +54,11 @@ class BaseHandler(RequestHandler, SessionMixin):
             logger.api_logger().api_error(self._error_message)
 
         response.update(self._result)
-
         self.set_header("Content-Type", "application/json;charset=utf-8")
-        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Origin", self.request.host)
         self.set_header("Access-Control-Allow-Headers", "x-requested-with")
         self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+        # self.set_header('Access-Control-Allow-Credentials', True)
         self.write(json.dumps(response))
 
     def set_result(self, result):
