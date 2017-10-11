@@ -4,6 +4,7 @@ from src.handler.base.base_handler import BaseHandler
 from src.helper.login_helper import login_auth
 from src.model.lessons_model import Lessons
 from src.utils.logger import logger
+from src.helper.error_msg_helper import Error
 
 
 class LessonListHandler(BaseHandler):
@@ -25,4 +26,4 @@ class LessonListHandler(BaseHandler):
             })
         except Exception, e:
             logger.api_logger().api_error(e)
-            self.set_error(1, u'服务器内部错误')
+            self.set_error(1, Error.SERVER_ERROR)

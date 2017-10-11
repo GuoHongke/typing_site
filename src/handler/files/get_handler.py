@@ -6,6 +6,7 @@ import json
 from src.handler.base.base_handler import BaseHandler
 from src.model.files_model import Files
 from src.helper.redis_helper import RedisClient
+from src.helper.error_msg_helper import Error
 
 
 class GetHandler(BaseHandler):
@@ -43,4 +44,4 @@ class GetHandler(BaseHandler):
             self.set_result(result)
         except Exception, e:
             print e
-            self.set_error(1, 'Read file error')
+            self.set_error(1, Error.SERVER_ERROR)

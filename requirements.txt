@@ -1,3 +1,5 @@
-tornado
-sqlalchemy
-redis
+tornado==4.5.2
+SQLAlchemy==1.1.7
+tornado-sqlalchemy==0.3.3
+redis==2.10.6
+futures==3.1.1

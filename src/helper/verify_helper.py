@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
+from src.helper.error_msg_helper import Error
 
 
 class VerifyHelper(object):
@@ -39,7 +40,7 @@ class VerifyHelper(object):
 
     @staticmethod
     def name_check(name):
-        # 不以下划线开头，仅包含字母、数字或下划线的用户名
+        # 不以下划线开头，仅包含字母、数字、汉字或下划线的用户名
         if re.match(r'^(?!_)[a-zA-Z0-9_\u4e00-\u9fa5]+$', name):
             return True
         else:
@@ -48,11 +49,11 @@ class VerifyHelper(object):
     def password_verify(self, pwd):
         error_msg = None
         if not self.pwd_len_check(pwd):
-            error_msg = u'请输入长度为8-24位的密码'
+            error_msg = Error.PWD_LEN_ERROR
         elif not self.pwd_space_check(pwd):
-            error_msg = u'密码中不能包含空格'
+            error_msg = Error.PWD_SPACE_ERROR
         elif not self.pwd_safety_check(pwd):
-            error_msg = u'密码至少包含(字母/数字/特殊符号)中的两种'
+            error_msg = Error.PWD_SAFETY_ERROR
         return error_msg
 
 

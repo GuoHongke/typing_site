@@ -3,6 +3,7 @@
 from src.handler.base.base_handler import BaseHandler
 from src.model.files_model import Files
 from src.utils.logger import logger
+from src.helper.error_msg_helper import Error
 
 
 class FileListHandler(BaseHandler):
@@ -22,4 +23,4 @@ class FileListHandler(BaseHandler):
             })
         except Exception, e:
             logger.api_logger().api_error(e)
-            self.set_error(1, u'服务器内部错误')
+            self.set_error(1, Error.SERVER_ERROR)
