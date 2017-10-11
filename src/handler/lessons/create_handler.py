@@ -7,6 +7,7 @@ from src.model.files_model import Files
 from src.utils import tools
 from src.utils.logger import logger
 from src.helper.login_helper import login_auth
+from src.helper.error_msg_helper import Error
 
 
 class LessonCreateHandler(BaseHandler):
@@ -16,23 +17,23 @@ class LessonCreateHandler(BaseHandler):
         lesson_name = self.get_argument('lesson_name', None)
         file_id = self.get_argument('file_id', None)
         if not error_msg and not lesson_name:
-            error_msg = u'课程名不能为空'
+            error_msg = Error.NO_LESSON_NAME
         if not error_msg and not file_id:
-            error_msg = u'请为课程添加文件'
+            error_msg = Error.LESSON_NO_FILE
         if not error_msg:
             try:
                 if session.query(Lessons).filter(and_(Lessons.name == lesson_name,
                                                       Lessons.account_id == self.account_id)).one_or_none():
-                    error_msg = u'课程名已存在'
+                    error_msg = Error.DUPLICATE_LESSON
                 elif not session.query(Files).filter(Files.id == file_id).one_or_none():
-                    error_msg = u'所选文件不存在'
+                    error_msg = Error.NO_FILE
                 else:
                     new_ld = tools.unique_id('ld')
                     new_lesson = Lessons(id=new_ld, name=lesson_name, account_id=self.account_id, file_id=file_id)
                     session.add(new_lesson)
             except Exception, e:
                 logger.api_logger().api_error(e)
-                error_msg = u"服务器内部错误"
+                error_msg = Error.SERVER_ERROR
 
         if error_msg:
             self.set_error(1, error_msg)

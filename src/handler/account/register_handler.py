@@ -5,6 +5,7 @@ from src.model.account_model import Account
 from src.handler.base.base_handler import BaseHandler
 from src.helper.verify_helper import VerifyHelper
 from src.helper.md5_helper import Md5Helper
+from src.helper.error_msg_helper import Error
 from src.utils import tools
 from src.utils.logger import logger
 
@@ -16,11 +17,11 @@ class RegisterHandler(BaseHandler):
         email = self.get_argument('email', None)
         error_msg = None
         if not all((name, password, email)):
-            error_msg = u'请输入相关注册信息'
+            error_msg = Error.NO_REGISTER_ARGS
         if not error_msg and not VerifyHelper().name_check(name):
-            error_msg = u'用户名格式错误'
+            error_msg = Error.NAME_ERROR
         if not error_msg and not VerifyHelper().mail_check(email):
-            error_msg = u'邮箱格式错误'
+            error_msg = Error.MAIL_ERROR
         if not error_msg:
             error_msg = VerifyHelper().password_verify(password)
 
@@ -35,12 +36,12 @@ class RegisterHandler(BaseHandler):
                     session.add(account)
                     self.set_result({'name': account.name})
                 elif account.name == name:
-                    error_msg = u'用户名已被注册'
+                    error_msg = Error.DUPLICATE_NAME
                 else:
-                    error_msg = u'邮箱已被注册'
+                    error_msg = Error.DUPLICATE_MAIL
             except Exception, e:
                 logger.api_logger().api_error(e)
-                error_msg = u'服务器错误'
+                error_msg = Error.SERVER_ERROR
 
         if error_msg:
             self.set_error(1, error_msg)

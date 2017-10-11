@@ -3,6 +3,7 @@
 from src.handler.base.base_handler import BaseHandler
 from src.model.lessons_model import Lessons
 from src.utils.logger import logger
+from src.helper.error_msg_helper import Error
 
 
 class HomeHandler(BaseHandler):
@@ -25,4 +26,4 @@ class HomeHandler(BaseHandler):
             self.set_result(result)
         except Exception, e:
             logger.api_logger().api_error(e)
-            self.set_error(1, u'服务器内部错误')
+            self.set_error(1, Error.SERVER_ERROR)

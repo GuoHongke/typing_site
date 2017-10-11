@@ -6,6 +6,7 @@ from sqlalchemy.sql import and_
 from src.handler.base.base_handler import BaseHandler
 from src.model.history_model import History
 from src.helper.login_helper import login_auth
+from src.helper.error_msg_helper import Error
 from src.utils.logger import logger
 
 
@@ -44,9 +45,9 @@ class LessonSaveHandler(BaseHandler):
                     session.add(new_history)
             except Exception, e:
                 logger.api_logger().api_error(e)
-                error_msg = u'服务器内部错误'
+                error_msg = Error.SERVER_ERROR
         else:
-            error_msg = u'请输入课程id'
+            error_msg = Error.NO_LESSON_ID
 
         if error_msg:
             self.set_error(1, error_msg)

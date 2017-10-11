@@ -4,6 +4,7 @@ from src.utils import config
 from src.handler.base.base_handler import BaseHandler
 from src.model.account_model import Account
 from src.helper.md5_helper import Md5Helper
+from src.helper.error_msg_helper import Error
 from sqlalchemy import and_, or_
 
 
@@ -14,9 +15,9 @@ class LoginHandler(BaseHandler):
 
         error_msg = ''
         if not login_card:
-            error_msg = u'请输入登录名'
+            error_msg = Error.NO_LOGIN_CARD
         elif not password:
-            error_msg = u'请输入密码'
+            error_msg = Error.NO_PASSWORD
 
         if not error_msg:
             gen_password = Md5Helper().ori_str_gen(password)
@@ -29,7 +30,7 @@ class LoginHandler(BaseHandler):
                 self.set_secure_cookie("account_id", account.id, expires_days=cookie_expire_time)
                 self.set_result({'name': account.name})
             else:
-                error_msg = u'登录名或密码错误'
+                error_msg = Error.LOGIN_ERROR
 
         if error_msg:
             self.set_error(1, error_msg)
