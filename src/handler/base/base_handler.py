@@ -13,7 +13,6 @@ class BaseHandler(RequestHandler, SessionMixin):
         self._status = 0
         self._error_message = None
         self._result = {}
-        self._arguments = {}
 
         self.account_id = self.get_secure_cookie('account_id')
 
