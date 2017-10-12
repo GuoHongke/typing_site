@@ -9,7 +9,7 @@ from src.helper.error_msg_helper import Error
 from src.utils.logger import logger
 
 
-class UpdateHandle(BaseHandler):
+class UpdateHandler(BaseHandler):
     @login_auth
     def do_action(self, session):
         email = self.get_argument('email', None)
