@@ -13,10 +13,14 @@ class BaseHandler(RequestHandler, SessionMixin):
         self._status = 0
         self._error_message = None
         self._result = {}
+        self._arguments = {}
 
         self.account_id = self.get_secure_cookie('account_id')
 
     def prepare(self):
+        body = json.loads(self.request.body)
+        for key, value in body.items():
+            self.request.arguments[key] = [value]
         if 'password' in self.request.arguments:
             logger.api_logger().api_info('handler %s' % self.__class__.__name__)
         else:
@@ -29,9 +33,12 @@ class BaseHandler(RequestHandler, SessionMixin):
         self.run()
 
     def post(self, *args, **kwargs):
+        origin = self.request.headers['Origin']
+        self.set_header("Access-Control-Allow-Origin", origin)
         self.run()
 
     def options(self, *args, **kwargs):
+        self.set_header("Access-Control-Allow-Headers", "Content-Type")
         self.run()
 
     def data_received(self, chunk):
@@ -54,11 +61,9 @@ class BaseHandler(RequestHandler, SessionMixin):
             logger.api_logger().api_error(self._error_message)
 
         response.update(self._result)
+
         self.set_header("Content-Type", "application/json;charset=utf-8")
-        self.set_header("Access-Control-Allow-Origin", self.request.host)
-        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-        # self.set_header('Access-Control-Allow-Credentials', True)
+        self.set_header('Access-Control-Allow-Credentials', 'true')
         self.write(json.dumps(response))
 
     def set_result(self, result):
