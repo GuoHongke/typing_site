@@ -12,7 +12,6 @@ class LoginHandler(BaseHandler):
     def do_action(self, session):
         login_card = self.get_argument('login_card', None)
         password = self.get_argument('password', None)
-
         error_msg = ''
         if not login_card:
             error_msg = Error.NO_LOGIN_CARD

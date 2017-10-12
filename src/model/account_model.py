@@ -12,7 +12,6 @@ class Account(Base):
     name = Column(String(255), nullable=False)
     password = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False)
-    lessons = Column(TEXT, nullable=True)
 
     def __repr__(self):
         return "<Account(id='%s', name='%s')>" % (self.id, self.name)
