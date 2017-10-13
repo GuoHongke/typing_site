@@ -17,13 +17,7 @@ class BaseHandler(RequestHandler, SessionMixin):
         self.account_id = self.get_secure_cookie('account_id')
 
     def prepare(self):
-        body = json.loads(self.request.body)
-        for key, value in body.items():
-            self.request.arguments[key] = [value]
-        if 'password' in self.request.arguments:
-            logger.api_logger().api_info('handler %s' % self.__class__.__name__)
-        else:
-            logger.api_logger().api_info('handler %s args %s' % (self.__class__.__name__, self.request.arguments))
+        logger.api_logger().api_info('handler %s args %s' % (self.__class__.__name__, self.request.arguments))
 
     def head(self, *args, **kwargs):
         self.run()
@@ -32,6 +26,9 @@ class BaseHandler(RequestHandler, SessionMixin):
         self.run()
 
     def post(self, *args, **kwargs):
+        body = json.loads(self.request.body if self.request.body else {})
+        for key, value in body.items():
+            self.request.arguments[key] = [value]
         origin = self.request.headers['Origin']
         self.set_header("Access-Control-Allow-Origin", origin)
         self.run()
