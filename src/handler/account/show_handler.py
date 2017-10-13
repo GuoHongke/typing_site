@@ -11,7 +11,7 @@ class ShowHandler(BaseHandler):
     @login_auth
     def do_action(self, session):
         try:
-            account = session.query(Account.name, Account.email).filter(Account.id == self.account_id).one_or_onne()
+            account = session.query(Account.name, Account.email).filter(Account.id == self.account_id).one()
             if account:
                 show = {
                     'name': account.name,
@@ -21,5 +21,6 @@ class ShowHandler(BaseHandler):
                     'show': show
                 })
         except Exception, e:
+            print e
             logger.api_logger().api_error(e)
             self.set_error(1, Error.SERVER_ERROR)
