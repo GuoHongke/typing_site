@@ -26,15 +26,15 @@ class BaseHandler(RequestHandler, SessionMixin):
         self.run()
 
     def post(self, *args, **kwargs):
-        body = json.loads(self.request.body if self.request.body else {})
-        for key, value in body.items():
-            self.request.arguments[key] = [value]
-        origin = self.request.headers['Origin']
-        self.set_header("Access-Control-Allow-Origin", origin)
+        try:
+            body = json.loads(self.request.body if self.request.body else '{}')
+            for key, value in body.items():
+                self.request.arguments[key] = [value]
+        except Exception, e:
+            logger.api_logger().api_error(e)
         self.run()
 
     def options(self, *args, **kwargs):
-        self.set_header("Access-Control-Allow-Headers", "Content-Type")
         self.run()
 
     def data_received(self, chunk):
@@ -55,11 +55,17 @@ class BaseHandler(RequestHandler, SessionMixin):
         if self._error_message:
             response["error_message"] = self._error_message
             logger.api_logger().api_error(self._error_message)
-
         response.update(self._result)
 
+        method = self.request.method
+        if method in ('POST', 'OPTIONS'):
+            origin = self.request.headers['Origin']
+            self.set_header("Access-Control-Allow-Origin", origin)
+            self.set_header('Access-Control-Allow-Credentials', 'true')
+            if method == 'OPTIONS':
+                self.set_header("Access-Control-Allow-Headers", "Content-Type")
+
         self.set_header("Content-Type", "application/json;charset=utf-8")
-        self.set_header('Access-Control-Allow-Credentials', 'true')
         self.write(json.dumps(response))
 
     def set_result(self, result):
