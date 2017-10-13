@@ -72,10 +72,9 @@ status(){
 }
 
 usage(){
-    echo "bash $CUR_FILE start: start the server"
-    echo "bash $CUR_FILE stop: stop the server"
-    echo "bash $CUR_FILE restart: restart the server"
-    echo "bash $CUR_FILE status: check server status"
+    me=`basename $0`
+    echo >&2 "Usage: bash $me {start|stop|restart|status}"
+    exit 1
 }
 
 

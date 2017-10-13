@@ -23,11 +23,10 @@ class LoginHandler(BaseHandler):
             account = session.query(Account.id, Account.name).filter(and_(
                 or_(Account.email == login_card, Account.name == login_card),
                 Account.password == gen_password)).one_or_none()
-            session.close()
             if account:
                 cookie_expire_time = int(config.get('global', 'cookie_expire_time'))
-                domin = config.get('global', 'domain')
-                self.set_secure_cookie("account_id", account.id, domain=domin, expires_days=cookie_expire_time)
+                domain = config.get('global', 'domain')
+                self.set_secure_cookie("account_id", account.id, domain=domain, expires_days=cookie_expire_time)
                 self.set_result({'name': account.name})
             else:
                 error_msg = Error.LOGIN_ERROR
