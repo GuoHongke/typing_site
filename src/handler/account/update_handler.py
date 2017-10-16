@@ -16,7 +16,6 @@ class UpdateHandler(BaseHandler):
         name = self.get_argument('name', None)
         old_password = self.get_argument('old_password', None)
         new_password = self.get_argument('new_password', None)
-
         error_msg = None
         try:
             update_bag = {}
@@ -39,16 +38,18 @@ class UpdateHandler(BaseHandler):
                     error_msg = Error.NAME_ERROR
 
             if not error_msg and new_password and old_password:
-                if new_password == old_password:
-                    error_msg = Error.NEW_PWD_ERROR
+                account = session.query(Account.password).filter(Account.id == self.account_id).one_or_none()
+                if account and Md5Helper.ori_str_gen(old_password) == account.password:
+                    error_msg = VerifyHelper().password_verify(new_password)
+                    if new_password == old_password:
+                        error_msg = Error.NEW_PWD_ERROR
                 else:
-                    account = session.query(Account.password).filter(Account.id == self.account_id).one_or_none()
-                    if account and Md5Helper.key_gen(old_password) == account.password:
-                        error_msg = VerifyHelper().password_verify(new_password)
-                    if not error_msg:
-                        update_bag['password'] = Md5Helper.key_gen(new_password)
+                    error_msg = Error.OLD_PWD_ERROR
 
-            if not error_msg and update_bag is not {}:
+                if not error_msg:
+                    update_bag['password'] = Md5Helper.ori_str_gen(new_password)
+
+            if not error_msg and update_bag:
                 session.query(Account).filter(Account.id == self.account_id).update(update_bag)
         except Exception, e:
             logger.api_logger().api_error(e)

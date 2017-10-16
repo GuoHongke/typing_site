@@ -1,18 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from src.handler.base.base_handler import BaseHandler
-from src.helper.login_helper import login_auth
 from src.model.lessons_model import Lessons
 from src.utils.logger import logger
 from src.helper.error_msg_helper import Error
 
 
 class LessonListHandler(BaseHandler):
-    @login_auth
     def do_action(self, session):
+        user = self.get_argument('user', None)
+
+        if user and self.account_id:
+            account_id = self.account_id
+        else:
+            account_id = '1'
         try:
             lessons = session.query(Lessons.id, Lessons.name, Lessons.file_id).filter(
-                Lessons.account_id == self.account_id)
+                Lessons.account_id == account_id)
             lesson_list = []
             for lesson in lessons:
                 _lesson = {

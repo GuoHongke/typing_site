@@ -5,7 +5,6 @@ from src.handler.account.logout_handler import LogoutHandler
 from src.handler.account.register_handler import RegisterHandler
 from src.handler.account.show_handler import ShowHandler
 from src.handler.account.update_handler import UpdateHandler
-from src.handler.lessons.home_handler import HomeHandler
 from src.handler.lessons.list_handler import LessonListHandler
 from src.handler.lessons.create_handler import LessonCreateHandler
 from src.handler.lessons.save_handler import LessonSaveHandler
@@ -23,7 +22,6 @@ url_map = [
     (r'/account/register', RegisterHandler),
     (r'/account/show', ShowHandler),
     (r'/account/update', UpdateHandler),
-    (r'/', HomeHandler),
     (r'/lesson/list', LessonListHandler),
     (r'/lesson/create', LessonCreateHandler),
     (r'/lesson/delete', LessonDeleteHandler),

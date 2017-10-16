@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import time
 from sqlalchemy.sql import or_
 from src.model.account_model import Account
 from src.handler.base.base_handler import BaseHandler
@@ -7,6 +8,7 @@ from src.helper.verify_helper import VerifyHelper
 from src.helper.md5_helper import Md5Helper
 from src.helper.error_msg_helper import Error
 from src.utils import tools
+from src.utils import config
 from src.utils.logger import logger
 
 
@@ -31,10 +33,18 @@ class RegisterHandler(BaseHandler):
                                                                Account.email == email)).one_or_none()
 
                 if not account:
+                    create_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
                     account = Account(id=tools.unique_id('ad'), name=name, password=Md5Helper().ori_str_gen(password),
-                                      email=email, lessons='[]')
+                                      email=email, create_time=create_time)
                     session.add(account)
-                    self.set_result({'name': account.name})
+                    cookie_expire_time = int(config.get('global', 'cookie_expire_time'))
+                    domain = config.get('global', 'domain')
+                    self.set_secure_cookie("account_id", account.id, domain=domain, expires_days=cookie_expire_time)
+                    self.set_result({{
+                        'name': account.name,
+                        'email': account.email
+                    }})
+
                 elif account.name == name:
                     error_msg = Error.DUPLICATE_NAME
                 else:
