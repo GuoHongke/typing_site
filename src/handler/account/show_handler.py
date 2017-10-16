@@ -11,7 +11,7 @@ class ShowHandler(BaseHandler):
     @login_auth
     def do_action(self, session):
         try:
-            account = session.query(Account.name, Account.email).filter(Account.id == self.account_id).one()
+            account = session.query(Account.name, Account.email).filter(Account.id == self.account_id).one_or_none()
             if account:
                 show = {
                     'name': account.name,

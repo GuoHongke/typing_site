@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import time
 from sqlalchemy.sql import and_
 from src.handler.base.base_handler import BaseHandler
 from src.model.lessons_model import Lessons
@@ -16,6 +17,7 @@ class LessonCreateHandler(BaseHandler):
         error_msg = None
         lesson_name = self.get_argument('lesson_name', None)
         file_id = self.get_argument('file_id', None)
+        notes = self.get_argument('notes', None)
         if not error_msg and not lesson_name:
             error_msg = Error.NO_LESSON_NAME
         if not error_msg and not file_id:
@@ -29,7 +31,9 @@ class LessonCreateHandler(BaseHandler):
                     error_msg = Error.NO_FILE
                 else:
                     new_ld = tools.unique_id('ld')
-                    new_lesson = Lessons(id=new_ld, name=lesson_name, account_id=self.account_id, file_id=file_id)
+                    create_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+                    new_lesson = Lessons(id=new_ld, name=lesson_name, account_id=self.account_id,
+                                         file_id=file_id, create_time=create_time, notes=notes)
                     session.add(new_lesson)
             except Exception, e:
                 logger.api_logger().api_error(e)
