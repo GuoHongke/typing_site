@@ -15,14 +15,14 @@ class LessonListHandler(BaseHandler):
         else:
             account_id = '1'
         try:
-            lessons = session.query(Lessons.id, Lessons.name, Lessons.file_id).filter(
-                Lessons.account_id == account_id)
+            lessons = session.query(Lessons).filter(Lessons.account_id == account_id)
             lesson_list = []
             for lesson in lessons:
                 _lesson = {
                     'lesson_d': lesson.id,
                     'name': lesson.name,
-                    'file_id': lesson.file_id
+                    'file_id': lesson.file_id,
+                    'notes': lesson.notes
                 }
                 lesson_list.append(_lesson)
             self.set_result({

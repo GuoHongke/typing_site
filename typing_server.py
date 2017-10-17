@@ -20,7 +20,7 @@ DB_PORT = config.get('mysql', 'port')
 DB = config.get('mysql', 'database')
 DB_USER = config.get('mysql', 'user')
 DB_PWD = config.get('mysql', 'password')
-mysql_engine = 'mysql+mysqldb://%s:%s@%s:%s/%s' % (DB_USER, DB_PWD, DB_HOST, DB_PORT, DB)
+mysql_engine = 'mysql+mysqldb://%s:%s@%s:%s/%s?charset=utf8' % (DB_USER, DB_PWD, DB_HOST, DB_PORT, DB)
 
 factory = make_session_factory(mysql_engine)
 port = config.get('global', 'port')
