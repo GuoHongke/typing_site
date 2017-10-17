@@ -20,9 +20,8 @@ class LoginHandler(BaseHandler):
 
         if not error_msg:
             gen_password = Md5Helper().ori_str_gen(password)
-            account = session.query(Account.id, Account.name).filter(and_(
-                or_(Account.email == login_card, Account.name == login_card),
-                Account.password == gen_password)).one_or_none()
+            account = session.query(Account).filter(and_(or_(Account.email == login_card, Account.name == login_card),
+                                                         Account.password == gen_password)).one_or_none()
             if account:
                 cookie_expire_time = int(config.get('global', 'cookie_expire_time'))
                 domain = config.get('global', 'domain')

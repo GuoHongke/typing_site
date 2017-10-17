@@ -6,6 +6,7 @@ import sys
 
 
 reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 def set_env():
@@ -16,3 +17,4 @@ def set_env():
     os.environ["SRC"] = os.path.join(cur_dir, "src")
     os.environ["TEMPLATES"] = os.path.join(cur_dir, "templates")
     os.environ["STATIC"] = os.path.join(cur_dir, "static")
+    os.environ["RESOURCES"] = os.path.join(cur_dir, "resources")
