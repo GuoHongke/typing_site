@@ -19,7 +19,7 @@ class LessonListHandler(BaseHandler):
             lesson_list = []
             for lesson in lessons:
                 _lesson = {
-                    'lesson_d': lesson.id,
+                    'lesson_id': lesson.id,
                     'name': lesson.name,
                     'file_id': lesson.file_id,
                     'notes': lesson.notes
