@@ -26,9 +26,12 @@ class LoginHandler(BaseHandler):
                 cookie_expire_time = int(config.get('global', 'cookie_expire_time'))
                 domain = config.get('global', 'domain')
                 self.set_secure_cookie("account_id", account.id, domain=domain, expires_days=cookie_expire_time)
-                self.set_result({
+                show = {
                     'name': account.name,
                     'email': account.email
+                }
+                self.set_result({
+                    'show': show
                 })
             else:
                 error_msg = Error.LOGIN_ERROR
